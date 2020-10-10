@@ -2,7 +2,7 @@
   import Paragraph from "./Paragraph.svelte";
   import Info from "./Info.svelte";
   import Thing from "./Thing.svelte";
-  import Inner from "./Inner.svelte";
+  // import Inner from "./Inner.svelte";
   import Outer from "./Outer.svelte";
   import CustomButton from "./CustomButton.svelte";
 
@@ -101,6 +101,103 @@
   function handleClickButton() {
     alert("clicked");
   }
+
+  let a = 1;
+  let b = 2;
+
+  let yes = false;
+
+  let scoops = 1;
+  let flavours = [];
+  let menu = ["Cookies", "Mint choc", "Raspberry"];
+
+  function join(flavours) {
+    if (flavours.length === 1) return flavours[0];
+    return `${flvaours.slice(0, -1).join(", ")} and ${
+      flvaours[flvaours.length - 1]
+    }`;
+  }
+
+  let value = "Some words are *italic*, some are **bold**";
+
+  let questions = [
+    { id: 1, text: `Where did you go to school?` },
+    { id: 2, text: `What is your mother's name?` },
+    {
+      id: 3,
+      text: `What is another personal fact that an attacker could easily find with Google?`,
+    },
+  ];
+  let selected;
+  let answer = "";
+
+  function handleSubmit() {
+    alert(`answered qeustion ${selected.id} ${selected.text} with ${answer}`);
+  }
+
+  let html = "<p>Write some text!</p>";
+
+  let todos = [
+    { done: false, text: "finish Svelte tutorial" },
+    { done: false, text: "build an app" },
+    { done: false, text: "world domination" },
+  ];
+
+  function add() {
+    todos = [...todos, { done: false, text: "" }];
+  }
+
+  function clear() {
+    todos = todos.filter((todo) => !todo.done);
+  }
+
+  $: remaining = todos.filter((todo) => !todo.done).length;
+
+  let time = 0;
+  let duration;
+  let paused = true;
+  let showControls = true;
+  let showControlsTimeout;
+
+  function handleMousemove2(e) {
+    clearTimeout(showControlsTimeout);
+    showControlsTimeout = setTimeout(() => {
+      showControls = false;
+    }, 2500);
+    showControls = true;
+
+    if (!(e.buttons & 1)) return;
+    if (!duration) return;
+
+    const { left, right } = this.getBoundingClientRect();
+    time = (duration * (e.clientX - left)) / (right - left);
+  }
+
+  function handleMousedown(e) {
+    function handleMouseup() {
+      if (paused) e.target.play();
+      else e.target.pause();
+      cancel();
+    }
+
+    function cancel() {
+      e.target.removeEventListener("mouseup", handleMouseup);
+    }
+
+    e.target.addEventListener("mouseup", handleMouseup);
+
+    setTimeout(cancel, 200);
+  }
+
+  function format(seconds) {
+    if (isNaN(seconds)) return "...";
+
+    const minutes = Math.floor(seconds / 60);
+    seconds = Math.floor(seconds % 60);
+    if (seconds < 10) seconds = "0" + seconds;
+
+    return `${minutes}:${seconds}`;
+  }
 </script>
 
 <style>
@@ -115,6 +212,62 @@
     width: 500px;
     height: 500px;
     border: 1px solid red;
+  }
+  [contenteditable] {
+    padding: 4px;
+    border: 2px solid black;
+  }
+  div {
+    position: relative;
+  }
+
+  .controls {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    transition: opacity 1s;
+  }
+
+  .info {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  span {
+    padding: 0.2em 0.5em;
+    color: white;
+    text-shadow: 0 0 8px black;
+    font-size: 1.4em;
+    opacity: 0.7;
+  }
+
+  .time {
+    width: 3em;
+  }
+
+  .time:last-child {
+    text-align: right;
+  }
+
+  progress {
+    display: block;
+    width: 100%;
+    height: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  progress::-webkit-progress-bar {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  progress::-webkit-progress-value {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  video {
+    width: 100%;
   }
 </style>
 
@@ -202,4 +355,125 @@
   <Outer on:message={handleMessage} />
 
   <CustomButton on:click={handleClickButton} />
+
+  <br />
+
+  <input type="text" bind:value={name} />
+  <h1>Hello {name}</h1>
+
+  <label>
+    <input type="number" bind:value={a} min="1" max="10" />
+    <input type="range" bind:value={a} min="1" max="10" />
+  </label>
+  <label>
+    <input type="number" bind:value={b} min="1" max="10" />
+    <input type="range" bind:value={b} min="1" max="10" />
+  </label>
+
+  <label>
+    <input type="checkbox" bind:checked={yes} />
+    Yes! Send me regular email spam
+  </label>
+  {#if yes}
+    <p>Thank you.</p>
+  {:else}
+    <p>No...</p>
+  {/if}
+  <button disabled={!yes}> Subscribe </button>
+
+  <h2>Size</h2>
+  <label>
+    <input type="radio" bind:group={scoops} value={1} />
+    One Scoop
+  </label>
+  <label>
+    <input type="radio" bind:group={scoops} value={2} />
+    Two Scoop
+  </label>
+  <label>
+    <input type="radio" bind:group={scoops} value={3} />
+    Three Scoop
+  </label>
+  <h2>Falvours</h2>
+  {#each menu as flavour}
+    <label>
+      <input type="checkbox" bind:group={flavours} value={flavour} />
+      {flavour}
+    </label>
+  {/each}
+  {#if flavours.length === 0}
+    <p>Please Select as least One.</p>
+  {:else if flavours.length > scoops}
+    <p>Can't order more flavours than scoops!</p>
+  {:else}
+    You ordered
+    {scoops}
+    {scoops === 1 ? 'scoop' : 'scoops'}
+    of
+    {join(flavours)}
+  {/if}
+
+  <textarea bind:value cols="30" rows="10" />
+  {value}
+
+  <h2>Insecurity questions</h2>
+  <form on:submit|preventDefault={handleSubmit}>
+    <!-- svelte-ignore a11y-no-onchange -->
+    <select bind:value={selected} on:change={() => (answer = '')}>
+      {#each questions as question}
+        <option value={question}>{question.text}</option>
+      {/each}
+    </select>
+
+    <input type="text" bind:value={answer} />
+
+    <button disabled={!answer} type="submit">Submit</button>
+  </form>
+  <p>selected question {selected ? selected.id : '[waiting...]'}</p>
+
+  <pre>{html}</pre>
+  <div contenteditable="true" bind:innerHTML={html} />
+
+  <h2>Todos</h2>
+  {#each todos as { done, text }}
+    <input type="checkbox" bind:checked={done} />
+    <input type="text" placeholder="What needs to be done?" bind:value={text} />
+  {/each}
+  <br />
+  {remaining}
+  remaining
+  <br />
+  <button on:click={add}>Add new</button>
+  <button on:click={clear}>Clear completed</button>
+
+  <h2>Caminandes: Llamigos</h2>
+  <p>
+    From
+    <a href="https://cloud.blender.org/open-projects">Blender Open Projects</a>.
+    CC-BY
+  </p>
+
+  <div>
+    <!-- svelte-ignore a11y-media-has-caption -->
+    <video
+      poster="https://sveltejs.github.io/assets/caminandes-llamigos.jpg"
+      src="https://sveltejs.github.io/assets/caminandes-llamigos.mp4"
+      on:mousemove={handleMousemove}
+      on:mousedown={handleMousedown} 
+      bind:currentTime={time}
+      bind:duration
+      bind:paused
+      />
+    <div class="controls" style="opacity: {duration && showControls ? 1 : 0}">
+      <progress value={time / duration || 0} />
+
+      <div class="info">
+        <span class="time">{format(time)}</span>
+        <span>click anywhere to
+          {paused ? 'play' : 'pause'}
+          / drag to seek</span>
+        <span class="time">{format(duration)}</span>
+      </div>
+    </div>
+  </div>
 </div>
