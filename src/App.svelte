@@ -1,10 +1,14 @@
 <script>
+  import { onMount, beforeUpdate, afterUpdate } from "svelte";
+
   import Paragraph from "./Paragraph.svelte";
   import Info from "./Info.svelte";
   import Thing from "./Thing.svelte";
   // import Inner from "./Inner.svelte";
   import Outer from "./Outer.svelte";
   import CustomButton from "./CustomButton.svelte";
+  import Keypad from "./Keypad.svelte";
+  import { onInterval } from "./utils";
 
   let name = "world";
   let source = "./img.png";
@@ -198,6 +202,71 @@
 
     return `${minutes}:${seconds}`;
   }
+
+  let w;
+  let h;
+  let size = 42;
+  let text = "edit me";
+
+  let pin;
+  $: view = pin ? pin.replace(/\d(?!$)/g, "·") : "enter your pin";
+
+  function handleKeypadSubmit() {
+    alert(`submitted ${pin}`);
+  }
+
+  let photos = [];
+
+  onMount(async () => {
+    const res = await fetch(
+      `https://jsonplaceholder.typicode.com/photos?_limit=20`
+    );
+    photos = await res.json();
+  });
+
+  let seconds = 0;
+  onInterval(() => (seconds += 1), 1000);
+
+  let div;
+  let autoscroll;
+
+  beforeUpdate(() => {
+    autoscroll =
+      div && div.offsetHeight + div.scrollTop > div.offsetHeight - 20;
+  });
+
+  afterUpdate(() => {
+    if (autoscroll) div.scrollTo(0, div.scrollHeight);
+  });
+
+  let comments = [{ author: "user", text: "hello" }];
+
+  function handleKeydown2(e) {
+    if (e.key === "Enter") {
+      const text = e.target.value;
+      if (!text) return;
+
+      comments = [
+        ...comments,
+        {
+          author: "user",
+          text,
+        },
+      ];
+
+      e.target.value = "";
+
+      setTimeout(() => {
+        comments = [
+          ...comments,
+          {
+            author: "another user",
+            text: "Good...",
+          },
+        ];
+      }, 1000);
+    }
+  }
 </script>
 
 <style>
@@ -205,18 +274,22 @@
     color: purple;
     font-size: 2em;
   }
+
   p {
     font-weight: normal;
   }
+
   .mousemoveWrap {
     width: 500px;
     height: 500px;
     border: 1px solid red;
   }
+
   [contenteditable] {
     padding: 4px;
     border: 2px solid black;
   }
+
   div {
     position: relative;
   }
@@ -268,6 +341,19 @@
 
   video {
     width: 100%;
+  }
+
+  .photos {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 8px;
+  }
+
+  figure,
+  img {
+    width: 100%;
+    margin: 0;
   }
 </style>
 
@@ -475,5 +561,47 @@
         <span class="time">{format(duration)}</span>
       </div>
     </div>
+  </div>
+
+  <input type="range" bind:value={size} />
+  <input type="text" bind:value={text} />
+  <p>size: {w}px x {h}px</p>
+  <div bind:clientWidth={w} bind:clientHeight={h}>
+    <span style="font-size: {size}px">{text}</span>
+  </div>
+
+  <h1 style="color: {pin ? '#333' : '#ccc'}">{view}</h1>
+  <Keypad bind:value={pin} on:submit={handleKeypadSubmit} />
+
+  <h1>Photo album</h1>
+  <div class="photos">
+    {#each photos as photo}
+      <figure>
+        <img src={photo.thumbnailUrl} alt={photo.title} />
+        <figcaption>{photo.title}</figcaption>
+      </figure>
+    {:else}
+      <p>loading...</p>
+    {/each}
+  </div>
+
+  <p>
+    The page has been open for
+    {seconds}
+    {seconds === 1 ? 'second' : 'seconds'}
+  </p>
+
+  <div class="chat">
+    <h1>Chat bot</h1>
+
+    <div bind:this={div}>
+      {#each comments as comment}
+        <article>
+          <p>{comment.author}</p>
+          <span>{comment.text}</span>
+        </article>
+      {/each}
+    </div>
+    <input type="text" on:keydown={handleKeydown2} />
   </div>
 </div>
