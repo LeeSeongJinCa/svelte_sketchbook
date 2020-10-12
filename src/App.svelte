@@ -767,4 +767,10 @@
       Fades in and out
     </p>
   {/if}
+
+  {#if visible}
+    <p in:fly={{ y: -200, duration: 2000, easing: cubicOut }} out:fade>
+      Fades in and out
+    </p>
+  {/if}
 </div>
