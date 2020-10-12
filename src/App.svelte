@@ -1,6 +1,6 @@
 <script>
   import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
-  import { tweened } from "svelte/motion";
+  import { tweened, spring } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
 
   import { onInterval } from "./utils";
@@ -321,6 +321,15 @@
     duration: 400,
     easing: cubicOut,
   });
+
+  let springCoords = spring(
+    { x: 50, y: 50 },
+    {
+      stiffness: 0.1,
+      damping: 0.25,
+    }
+  );
+  let springSize = spring(10);
 </script>
 
 <style>
@@ -418,6 +427,16 @@
   progress {
     display: block;
     width: 100%;
+  }
+
+  svg {
+    width: 100px;
+    height: 100px;
+    border: 2px solid red;
+  }
+
+  circle {
+    fill: #ff3e00;
   }
 </style>
 
@@ -694,9 +713,41 @@
   <button on:click={() => ($storeName += '!')}>Add exclamation mark!</button>
 
   <progress value={$progress} />
+  <button on:click={() => ($progress = 0)}>0%</button>
   <button on:click={() => progress.set(0)}>0%</button>
   <button on:click={() => progress.set(0.25)}>25%</button>
   <button on:click={() => progress.set(0.5)}>50%</button>
   <button on:click={() => progress.set(0.75)}>75%</button>
   <button on:click={() => progress.set(1)}>100%</button>
+
+  <div class="spring-wrap">
+    <div style="position: absolute; right: 1em;">
+      <label>
+        <h3>stiffness ({springCoords.stiffness})</h3>
+        <input
+          bind:value={springCoords.stiffness}
+          type="range"
+          min="0"
+          max="1"
+          step="0.01" />
+      </label>
+
+      <label>
+        <h3>damping ({springCoords.damping})</h3>
+        <input
+          bind:value={springCoords.damping}
+          type="range"
+          min="0"
+          max="1"
+          step="0.01" />
+      </label>
+    </div>
+
+    <svg
+      on:mousemove={(e) => ($springCoords = { x: e.offsetX, y: e.offsetY })}
+      on:mousedown={() => ($springSize = 30)}
+      on:mouseup={() => ($springSize = 10)}>
+      <circle cx={$springCoords.x} cy={$springCoords.y} r={$springSize} />
+    </svg>
+  </div>
 </div>
