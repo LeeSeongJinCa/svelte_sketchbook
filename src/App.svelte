@@ -273,10 +273,9 @@
   async function handleKeydownToggle(e) {
     if (e.key !== "Tab") return;
 
-    e.preventDetault();
+    e.preventDefault();
 
     const { selectionStart, selectionEnd, value } = this;
-    console.log(selectionStart, selectionEnd, value);
     const selection = value.slice(selectionStart, selectionEnd);
 
     const replacement = /[a-z]/.test(selection)
@@ -380,7 +379,7 @@
   }
 
   textarea {
-    wdith: 100%;
+    width: 100%;
     height: 200px;
   }
 </style>
@@ -633,5 +632,5 @@
     <input type="text" on:keydown={handleKeydown2} />
   </div>
 
-  <textarea value={text} on:keydown={handleKeydownToggle} />
+  <textarea value={tickText} on:keydown={handleKeydownToggle} />
 </div>
