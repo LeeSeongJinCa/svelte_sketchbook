@@ -1,6 +1,8 @@
 <script>
   import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
 
+  import { onInterval } from "./utils";
+  import { count as storeCount } from "./store";
   import Paragraph from "./Paragraph.svelte";
   import Info from "./Info.svelte";
   import Thing from "./Thing.svelte";
@@ -8,7 +10,9 @@
   import Outer from "./Outer.svelte";
   import CustomButton from "./CustomButton.svelte";
   import Keypad from "./Keypad.svelte";
-  import { onInterval } from "./utils";
+  import Resetter from "./Resetter.svelte";
+  import Incrementer from "./Incrementer.svelte";
+  import Decrementer from "./Decrementer.svelte";
 
   let name = "world";
   let source = "./img.png";
@@ -289,6 +293,12 @@
     this.selectionStart = selectionStart;
     this.selectionEnd = selectionEnd;
   }
+
+  let count_value;
+
+  const unsubscribe = storeCount.subscribe((value) => {
+    count_value = value;
+  });
 </script>
 
 <style>
@@ -633,4 +643,9 @@
   </div>
 
   <textarea value={tickText} on:keydown={handleKeydownToggle} />
+
+  <h1>The count is {count_value}</h1>
+  <Incrementer />
+  <Decrementer />
+  <Resetter />
 </div>
