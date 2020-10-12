@@ -350,6 +350,29 @@
       },
     };
   }
+
+  function typewriter(node, { speed = 50 }) {
+    const vaild =
+      node.childNodes.length === 1 &&
+      node.childNodes[0].nodeType === Node.TEXT_NODE;
+
+    if (!vaild) {
+      throw new Error(
+        "This transition only work on elements with a single text node child"
+      );
+    }
+
+    const text = node.textContent;
+    const duration = text.length * speed;
+
+    return {
+      duration,
+      tick: (t) => {
+        const i = ~~(text.length * t);
+        node.textContent = text.slice(0, i);
+      },
+    };
+  }
 </script>
 
 <style>
@@ -804,13 +827,15 @@
     </p>
   {/if}
 
-  <label> <input type="checkbox" bind:checked={visible} /> visible </label>
-
   {#if visible}
     <div style="position: relative;">
       <div class="centered" in:spin={{ duration: 8000 }} out:fade>
         <span class="spin">tarnsitions!</span>
       </div>
     </div>
+  {/if}
+
+  {#if visible}
+    <p in:typewriter>The quick brown fox jumps over the lazy dog</p>
   {/if}
 </div>
