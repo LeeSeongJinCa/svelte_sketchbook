@@ -2,7 +2,12 @@
   import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
 
   import { onInterval } from "./utils";
-  import { count as storeCount, time as storeTime, elapsed } from "./store";
+  import {
+    count as storeCount,
+    time as storeTime,
+    elapsed,
+    customCount,
+  } from "./store";
 
   import Paragraph from "./Paragraph.svelte";
   import Info from "./Info.svelte";
@@ -664,4 +669,9 @@
     {$elapsed}
     {$elapsed === 1 ? 'second' : 'seconds'}
   </p>
+
+  <h1>The count is {$customCount}</h1>
+  <button on:click={customCount.increment}>+</button>
+  <button on:click={customCount.decrement}>-</button>
+  <button on:click={customCount.reset}>reset</button>
 </div>
