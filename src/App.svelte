@@ -645,6 +645,7 @@
   <textarea value={tickText} on:keydown={handleKeydownToggle} />
 
   <h1>The count is {count_value}</h1>
+  <h1>The count is {$storeCount} -- Auto-subscriptions</h1>
   <Incrementer />
   <Decrementer />
   <Resetter />
