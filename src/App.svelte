@@ -373,6 +373,8 @@
       },
     };
   }
+
+  let status = "wating...";
 </script>
 
 <style>
@@ -808,34 +810,35 @@
   </div>
 
   <label> <input type="checkbox" bind:checked={visible} /> visible </label>
-
+  <p>status: {status}</p>
   {#if visible}
     <p transition:fade={{ duration: 500, easing: cubicOut }}>
       Fades in and out
     </p>
-  {/if}
 
-  {#if visible}
     <p transition:fly={{ y: -200, duration: 2000, easing: cubicOut }}>
       Fades in and out
     </p>
-  {/if}
 
-  {#if visible}
     <p in:fly={{ y: -200, duration: 2000, easing: cubicOut }} out:fade>
       Fades in and out
     </p>
-  {/if}
 
-  {#if visible}
     <div style="position: relative;">
       <div class="centered" in:spin={{ duration: 8000 }} out:fade>
-        <span class="spin">tarnsitions!</span>
+        <span class="spin">transitions!</span>
       </div>
     </div>
-  {/if}
 
-  {#if visible}
     <p in:typewriter>The quick brown fox jumps over the lazy dog</p>
+
+    <p
+      transition:fly={{ y: 200, duration: 2000 }}
+      on:introstart={() => (status = 'intro started')}
+      on:introend={() => (status = 'intro ended')}
+      on:outrostart={() => (status = 'outro started')}
+      on:outroend={() => (status = 'outro ended')}>
+      Flies in and out
+    </p>
   {/if}
 </div>
