@@ -1,5 +1,5 @@
 <script>
-  import { onMount, beforeUpdate, afterUpdate } from "svelte";
+  import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
 
   import Paragraph from "./Paragraph.svelte";
   import Info from "./Info.svelte";
@@ -267,6 +267,29 @@
       }, 1000);
     }
   }
+
+  let tickText = "Select some text and hit the tab key to toggle uppercase";
+
+  async function handleKeydownToggle(e) {
+    if (e.key !== "Tab") return;
+
+    e.preventDetault();
+
+    const { selectionStart, selectionEnd, value } = this;
+    console.log(selectionStart, selectionEnd, value);
+    const selection = value.slice(selectionStart, selectionEnd);
+
+    const replacement = /[a-z]/.test(selection)
+      ? selection.toUpperCase()
+      : selection.toLowerCase();
+
+    tickText =
+      value.slice(0, selectionStart) + replacement + value.slice(selectionEnd);
+
+    await tick();
+    this.selectionStart = selectionStart;
+    this.selectionEnd = selectionEnd;
+  }
 </script>
 
 <style>
@@ -354,6 +377,11 @@
   img {
     width: 100%;
     margin: 0;
+  }
+
+  textarea {
+    wdith: 100%;
+    height: 200px;
   }
 </style>
 
@@ -604,4 +632,6 @@
     </div>
     <input type="text" on:keydown={handleKeydown2} />
   </div>
+
+  <textarea value={text} on:keydown={handleKeydownToggle} />
 </div>
