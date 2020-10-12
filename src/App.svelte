@@ -7,6 +7,8 @@
     time as storeTime,
     elapsed,
     customCount,
+    name as storeName,
+    greeting,
   } from "./store";
 
   import Paragraph from "./Paragraph.svelte";
@@ -674,4 +676,8 @@
   <button on:click={customCount.increment}>+</button>
   <button on:click={customCount.decrement}>-</button>
   <button on:click={customCount.reset}>reset</button>
+
+  <h1>{$greeting}</h1>
+  <input type="text" bind:value={$storeName} />
+  <button on:click={() => ($storeName += '!')}>Add exclamation mark!</button>
 </div>
