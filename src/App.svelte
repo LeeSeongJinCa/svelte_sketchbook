@@ -2,7 +2,7 @@
   import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
   import { tweened, spring } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
-  import { fade } from "svelte/transition";
+  import { fade, fly } from "svelte/transition";
 
   import { onInterval } from "./utils";
   import {
@@ -757,6 +757,14 @@
   <label> <input type="checkbox" bind:checked={visible} /> visible </label>
 
   {#if visible}
-    <p transition:fade>Fades in and out</p>
+    <p transition:fade={{ duration: 500, easing: cubicOut }}>
+      Fades in and out
+    </p>
+  {/if}
+
+  {#if visible}
+    <p transition:fly={{ y: -200, duration: 2000, easing: cubicOut }}>
+      Fades in and out
+    </p>
   {/if}
 </div>
