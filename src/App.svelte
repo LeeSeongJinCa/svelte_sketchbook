@@ -1,5 +1,7 @@
 <script>
   import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
+  import { tweened } from "svelte/motion";
+  import { cubicOut } from "svelte/easing";
 
   import { onInterval } from "./utils";
   import {
@@ -314,6 +316,11 @@
     minute: "2-digit",
     second: "2-digit",
   });
+
+  const progress = tweened(0, {
+    duration: 400,
+    easing: cubicOut,
+  });
 </script>
 
 <style>
@@ -406,6 +413,11 @@
   textarea {
     width: 100%;
     height: 200px;
+  }
+
+  progress {
+    display: block;
+    width: 100%;
   }
 </style>
 
@@ -680,4 +692,11 @@
   <h1>{$greeting}</h1>
   <input type="text" bind:value={$storeName} />
   <button on:click={() => ($storeName += '!')}>Add exclamation mark!</button>
+
+  <progress value={$progress} />
+  <button on:click={() => progress.set(0)}>0%</button>
+  <button on:click={() => progress.set(0.25)}>25%</button>
+  <button on:click={() => progress.set(0.5)}>50%</button>
+  <button on:click={() => progress.set(0.75)}>75%</button>
+  <button on:click={() => progress.set(1)}>100%</button>
 </div>
