@@ -2,7 +2,8 @@
   import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
 
   import { onInterval } from "./utils";
-  import { count as storeCount } from "./store";
+  import { count as storeCount, time as storeTime } from "./store";
+
   import Paragraph from "./Paragraph.svelte";
   import Info from "./Info.svelte";
   import Thing from "./Thing.svelte";
@@ -298,6 +299,13 @@
 
   const unsubscribe = storeCount.subscribe((value) => {
     count_value = value;
+  });
+
+  const formatter = new Intl.DateTimeFormat("ko", {
+    hour12: true,
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
   });
 </script>
 
@@ -649,4 +657,6 @@
   <Incrementer />
   <Decrementer />
   <Resetter />
+
+  <h1>The time is {formatter.format($storeTime)}</h1>
 </div>
