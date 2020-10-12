@@ -2,6 +2,7 @@
   import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
   import { tweened, spring } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
+  import { fade } from "svelte/transition";
 
   import { onInterval } from "./utils";
   import {
@@ -330,6 +331,8 @@
     }
   );
   let springSize = spring(10);
+
+  let visible = true;
 </script>
 
 <style>
@@ -750,4 +753,10 @@
       <circle cx={$springCoords.x} cy={$springCoords.y} r={$springSize} />
     </svg>
   </div>
+
+  <label> <input type="checkbox" bind:checked={visible} /> visible </label>
+
+  {#if visible}
+    <p transition:fade>Fades in and out</p>
+  {/if}
 </div>
