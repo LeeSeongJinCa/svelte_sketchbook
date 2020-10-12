@@ -2,7 +2,7 @@
   import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
 
   import { onInterval } from "./utils";
-  import { count as storeCount, time as storeTime } from "./store";
+  import { count as storeCount, time as storeTime, elapsed } from "./store";
 
   import Paragraph from "./Paragraph.svelte";
   import Info from "./Info.svelte";
@@ -659,4 +659,9 @@
   <Resetter />
 
   <h1>The time is {formatter.format($storeTime)}</h1>
+  <p>
+    This page has been open for
+    {$elapsed}
+    {$elapsed === 1 ? 'second' : 'seconds'}
+  </p>
 </div>
