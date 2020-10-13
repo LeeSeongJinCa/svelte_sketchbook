@@ -460,6 +460,9 @@
 
   let pressed = false;
   let pressedDuration = 2000;
+
+  const buttons = ["foo", "bar", "baz"];
+  let current = "foo";
 </script>
 
 <style>
@@ -602,6 +605,11 @@
     border-radius: 4px;
     background-color: #ff3e00;
     cursor: move;
+  }
+
+  .selected {
+    background-color: red;
+    color: white;
   }
 </style>
 
@@ -1015,4 +1023,12 @@
   {#if pressed}
     <p>congratulations, {pressedDuration}ms</p>
   {/if}
+
+  <div>
+    {#each buttons as button}
+      <button
+        on:click={() => (current = button)}
+        class:selected={current === button}>{button}</button>
+    {/each}
+  </div>
 </div>
