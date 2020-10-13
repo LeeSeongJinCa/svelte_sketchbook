@@ -2,7 +2,7 @@
   import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
   import { tweened, spring } from "svelte/motion";
   import { cubicOut, elasticOut } from "svelte/easing";
-  import { fade, fly } from "svelte/transition";
+  import { fade, fly, slide } from "svelte/transition";
 
   import { onInterval } from "./utils";
   import {
@@ -375,9 +375,17 @@
   }
 
   let status = "wating...";
+
+  let showItems = true;
+  let i = 5;
+  let items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 </script>
 
 <style>
+  .root {
+    padding: 100px 0;
+  }
+
   span {
     color: purple;
     font-size: 2em;
@@ -496,9 +504,14 @@
     transform: translate(-50%, -50%);
     font-size: 4em;
   }
+
+  .item {
+    padding: 0.5em 0;
+    border-top: 1px solid #eee;
+  }
 </style>
 
-<div>
+<div class="root">
   <span>Hello {name}!</span>
   <img src={source} alt="img" title="img" />
   <Paragraph answer={42} />
@@ -840,5 +853,14 @@
       on:outroend={() => (status = 'outro ended')}>
       Flies in and out
     </p>
+  {/if}
+
+  <label> <input type="checkbox" bind:checked={showItems} /> show list </label>
+  <label> <input type="range" bind:value={i} max="10" /> </label>
+
+  {#if showItems}
+    {#each items.slice(0, i) as item}
+      <div class="item" transition:slide|local>{item}</div>
+    {/each}
   {/if}
 </div>
