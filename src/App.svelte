@@ -15,6 +15,7 @@
     greeting,
   } from "./store";
   import { pannable } from "./pannable";
+  import { longpress } from "./longpress";
 
   import Paragraph from "./Paragraph.svelte";
   import Info from "./Info.svelte";
@@ -456,6 +457,9 @@
     coords2.damping = 0.4;
     coords2.set({ x: 0, y: 0 });
   }
+
+  let pressed = false;
+  let pressedDuration = 2000;
 </script>
 
 <style>
@@ -999,4 +1003,16 @@
       translate({$coords2.x}px,{$coords2.y}px)
       rotate({$coords2.x * 0.2}deg)" />
   </div>
+
+  <label>
+    <input type="range" bind:value={pressedDuration} max={2000} step={100} />
+    {pressedDuration}ms
+  </label>
+  <button
+    use:longpress={pressedDuration}
+    on:longpress={() => (pressed = true)}
+    on:mouseenter={() => (pressed = false)}>press and hold</button>
+  {#if pressed}
+    <p>congratulations, {pressedDuration}ms</p>
+  {/if}
 </div>
