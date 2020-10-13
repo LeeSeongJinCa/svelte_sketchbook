@@ -1,8 +1,8 @@
 <script>
   import { onMount, beforeUpdate, afterUpdate, tick } from "svelte";
   import { tweened, spring } from "svelte/motion";
-  import { cubicOut, elasticOut } from "svelte/easing";
-  import { fade, fly, slide } from "svelte/transition";
+  import { cubicOut, elasticOut, quintOut } from "svelte/easing";
+  import { fade, fly, slide, crossfade } from "svelte/transition";
 
   import { onInterval } from "./utils";
   import {
@@ -379,6 +379,56 @@
   let showItems = true;
   let i = 5;
   let items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const [send, receive] = crossfade({
+    duration: (d) => Math.sqrt(d * 200),
+
+    fallback(node, params) {
+      const style = getComputedStyle(node);
+      const transform = style.transform === "none" ? "" : style.transform;
+
+      return {
+        duration: 600,
+        easing: quintOut,
+        css: (t) => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`,
+      };
+    },
+  });
+
+  let uid = 1;
+
+  let todos2 = [
+    { id: uid++, done: false, description: "write some docs" },
+    { id: uid++, done: false, description: "start writing blog post" },
+    { id: uid++, done: true, description: "buy some milk" },
+    { id: uid++, done: false, description: "mow the lawn" },
+    { id: uid++, done: false, description: "feed the turtle" },
+    { id: uid++, done: false, description: "fix some bugs" },
+  ];
+
+  function add2(input) {
+    const todo = {
+      id: uid++,
+      done: false,
+      description: input.value,
+    };
+
+    todos2 = [todo, ...todos2];
+    input.value = "";
+  }
+
+  function remove2(todo) {
+    todos2 = todos2.filter((t) => t !== todo);
+  }
+
+  function mark2(todo, done) {
+    todo.done = done;
+    remove2(todo);
+    todos2 = todos2.concat(todo);
+  }
 </script>
 
 <style>
@@ -863,4 +913,32 @@
       <div class="item" transition:slide|local>{item}</div>
     {/each}
   {/if}
+
+  <div class="borad">
+    <input
+      type="text"
+      placeholder="What needs to do done?"
+      on:keydown={(e) => e.key === 'Enter' && add2(e.target)} />
+    <div class="left">
+      <h2>todo</h2>
+      {#each todos2.filter((t) => !t.done) as todo (todo.id)}
+        <label in:receive={{ key: todo.id }} out:send={{ key: todo.id }}>
+          <input type="checkbox" on:change={() => mark2(todo, true)} />
+          {todo.description}
+          <button on:click={() => remove2(todo)}>remove</button>
+        </label>
+      {/each}
+    </div>
+
+    <div class="right">
+      <h2>done</h2>
+      {#each todos2.filter((t) => t.done) as todo (todo.id)}
+        <label in:receive={{ key: todo.id }} out:send={{ key: todo.id }}>
+          <input type="checkbox" checked on:change={() => mark2(todo, false)} />
+          {todo.description}
+          <button on:click={() => remove2(todo)}>remove</button>
+        </label>
+      {/each}
+    </div>
+  </div>
 </div>
