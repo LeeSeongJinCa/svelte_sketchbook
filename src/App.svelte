@@ -463,6 +463,8 @@
 
   const buttons = ["foo", "bar", "baz"];
   let current = "foo";
+
+  let big = false;
 </script>
 
 <style>
@@ -610,6 +612,10 @@
   .selected {
     background-color: red;
     color: white;
+  }
+
+  .big {
+    font-size: 40px;
   }
 </style>
 
@@ -1031,4 +1037,7 @@
         class:selected={current === button}>{button}</button>
     {/each}
   </div>
+
+  <div><label> <input type="checkbox" bind:checked={big} /> big </label></div>
+  <div class:big>some {big ? 'big' : 'small'} text</div>
 </div>
