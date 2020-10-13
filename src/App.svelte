@@ -3,6 +3,7 @@
   import { tweened, spring } from "svelte/motion";
   import { cubicOut, elasticOut, quintOut } from "svelte/easing";
   import { fade, fly, slide, crossfade } from "svelte/transition";
+  import { flip } from "svelte/animate";
 
   import { onInterval } from "./utils";
   import {
@@ -922,7 +923,10 @@
     <div class="left">
       <h2>todo</h2>
       {#each todos2.filter((t) => !t.done) as todo (todo.id)}
-        <label in:receive={{ key: todo.id }} out:send={{ key: todo.id }}>
+        <label
+          in:receive={{ key: todo.id }}
+          out:send={{ key: todo.id }}
+          animate:flip={{duration: 500}}>
           <input type="checkbox" on:change={() => mark2(todo, true)} />
           {todo.description}
           <button on:click={() => remove2(todo)}>remove</button>
@@ -933,7 +937,10 @@
     <div class="right">
       <h2>done</h2>
       {#each todos2.filter((t) => t.done) as todo (todo.id)}
-        <label in:receive={{ key: todo.id }} out:send={{ key: todo.id }}>
+        <label
+          in:receive={{ key: todo.id }}
+          out:send={{ key: todo.id }}
+          animate:flip={{duration: 200}}>
           <input type="checkbox" checked on:change={() => mark2(todo, false)} />
           {todo.description}
           <button on:click={() => remove2(todo)}>remove</button>
