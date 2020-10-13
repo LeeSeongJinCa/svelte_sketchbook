@@ -27,6 +27,7 @@
   import Resetter from "./Resetter.svelte";
   import Incrementer from "./Incrementer.svelte";
   import Decrementer from "./Decrementer.svelte";
+  import Box from "./Box.svelte";
 
   let name = "world";
   let source = "./img.png";
@@ -1040,4 +1041,6 @@
 
   <div><label> <input type="checkbox" bind:checked={big} /> big </label></div>
   <div class:big>some {big ? 'big' : 'small'} text</div>
+
+  <Box>Hello world!</Box>
 </div>
