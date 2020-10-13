@@ -28,6 +28,7 @@
   import Incrementer from "./Incrementer.svelte";
   import Decrementer from "./Decrementer.svelte";
   import Box from "./Box.svelte";
+  import Hoverable from "./Hoverable.svelte";
 
   let name = "world";
   let source = "./img.png";
@@ -618,6 +619,11 @@
   .big {
     font-size: 40px;
   }
+
+  .active {
+    background-color: red;
+    color: white;
+  }
 </style>
 
 <div class="root">
@@ -1048,4 +1054,14 @@
     <span slot="email"> dltjdqhr51@gmail.com </span>
   </Box>
   <Box />
+
+  <Hoverable let:hovering={active}>
+    <div class:active>
+      {#if active}
+        <p>I am being hovered.</p>
+      {:else}
+        <p>Hover over me!</p>
+      {/if}
+    </div>
+  </Hoverable>
 </div>
