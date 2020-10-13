@@ -1043,4 +1043,5 @@
   <div class:big>some {big ? 'big' : 'small'} text</div>
 
   <Box>Hello world!</Box>
+  <Box />
 </div>
