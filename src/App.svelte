@@ -29,6 +29,8 @@
   import Decrementer from "./Decrementer.svelte";
   import Box from "./Box.svelte";
   import Hoverable from "./Hoverable.svelte";
+  import Map from "./Map.svelte";
+  import MapMarket from "./MapMarket.svelte";
 
   let name = "world";
   let source = "./img.png";
@@ -1064,4 +1066,8 @@
       {/if}
     </div>
   </Hoverable>
+
+  <Map lat={35} lon={-84} zoom={3.5}>
+    <MapMarket lat={37.8225} lon={-118.4169} label="Svelte" />
+  </Map>
 </div>
