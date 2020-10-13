@@ -14,6 +14,7 @@
     name as storeName,
     greeting,
   } from "./store";
+  import { pannable } from "./pannable";
 
   import Paragraph from "./Paragraph.svelte";
   import Info from "./Info.svelte";
@@ -430,6 +431,31 @@
     remove2(todo);
     todos2 = todos2.concat(todo);
   }
+
+  const coords2 = spring(
+    { x: 0, y: 0 },
+    {
+      stiffness: 0.2,
+      damping: 0.4,
+    }
+  );
+
+  function handlePanStart() {
+    coords2.stiffness = coords2.damping = 1;
+  }
+
+  function handlePanMove(event) {
+    coords2.update(($coords) => ({
+      x: $coords.x + event.detail.dx,
+      y: $coords.y + event.detail.dy,
+    }));
+  }
+
+  function handlePanEnd(event) {
+    coords2.stiffness = 0.2;
+    coords2.damping = 0.4;
+    coords2.set({ x: 0, y: 0 });
+  }
 </script>
 
 <style>
@@ -559,6 +585,19 @@
   .item {
     padding: 0.5em 0;
     border-top: 1px solid #eee;
+  }
+
+  .box {
+    --width: 100px;
+    --height: 100px;
+    position: absolute;
+    width: var(--width);
+    height: var(--height);
+    left: calc(50% - var(--width) / 2);
+    top: calc(50% - var(--height) / 2);
+    border-radius: 4px;
+    background-color: #ff3e00;
+    cursor: move;
   }
 </style>
 
@@ -926,7 +965,7 @@
         <label
           in:receive={{ key: todo.id }}
           out:send={{ key: todo.id }}
-          animate:flip={{duration: 500}}>
+          animate:flip={{ duration: 500 }}>
           <input type="checkbox" on:change={() => mark2(todo, true)} />
           {todo.description}
           <button on:click={() => remove2(todo)}>remove</button>
@@ -940,12 +979,24 @@
         <label
           in:receive={{ key: todo.id }}
           out:send={{ key: todo.id }}
-          animate:flip={{duration: 200}}>
+          animate:flip={{ duration: 200 }}>
           <input type="checkbox" checked on:change={() => mark2(todo, false)} />
           {todo.description}
           <button on:click={() => remove2(todo)}>remove</button>
         </label>
       {/each}
     </div>
+  </div>
+
+  <div style="position: relative;">
+    <div
+      class="box"
+      use:pannable
+      on:panstart={handlePanStart}
+      on:panmove={handlePanMove}
+      on:panend={handlePanEnd}
+      style="transform:
+      translate({$coords2.x}px,{$coords2.y}px)
+      rotate({$coords2.x * 0.2}deg)" />
   </div>
 </div>
