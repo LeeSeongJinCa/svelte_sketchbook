@@ -1042,6 +1042,10 @@
   <div><label> <input type="checkbox" bind:checked={big} /> big </label></div>
   <div class:big>some {big ? 'big' : 'small'} text</div>
 
-  <Box>Hello world!</Box>
+  <Box>
+    Hello world!
+    <span slot="child">My son </span>
+    <span slot="email"> dltjdqhr51@gmail.com </span>
+  </Box>
   <Box />
 </div>

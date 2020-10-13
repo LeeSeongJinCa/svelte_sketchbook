@@ -7,5 +7,10 @@
 </style>
 
 <div class="box">
-  <slot><em>no content was provided</em></slot>
+  <div class="child">
+    <slot name="child"><span>Unknwon child</span></slot>
+  </div>
+  <div class="email">
+    <slot name="email"><span class="missing">Unknown email</span></slot>
+  </div>
 </div>
