@@ -31,6 +31,7 @@
   import Hoverable from "./Hoverable.svelte";
   import Map from "./Map.svelte";
   import MapMarket from "./MapMarket.svelte";
+  import Folder from "./Folder.svelte";
 
   let name = "world";
   let source = "./img.png";
@@ -469,6 +470,40 @@
   let current = "foo";
 
   let big = false;
+
+  let root = [
+    {
+      type: "folder",
+      name: "Important work stuff",
+      files: [{ type: "file", name: "quarterly-results.xlsx" }],
+    },
+    {
+      type: "folder",
+      name: "Animal GIFs",
+      files: [
+        {
+          type: "folder",
+          name: "Dogs",
+          files: [
+            { type: "file", name: "treadmill.gif" },
+            { type: "file", name: "rope-jumping.gif" },
+          ],
+        },
+        {
+          type: "folder",
+          name: "Goats",
+          files: [
+            { type: "file", name: "parkour.gif" },
+            { type: "file", name: "rampage.gif" },
+          ],
+        },
+        { type: "file", name: "cat-roomba.gif" },
+        { type: "file", name: "duck-shuffle.gif" },
+        { type: "file", name: "monkey-on-a-pig.gif" },
+      ],
+    },
+    { type: "file", name: "TODO.md" },
+  ];
 </script>
 
 <style>
@@ -1070,4 +1105,8 @@
   <Map lat={35} lon={-84} zoom={3.5}>
     <MapMarket lat={37.8225} lon={-118.4169} label="Svelte" />
   </Map>
+
+  <div>
+    <Folder expanded name="Home" files={root} />
+  </div>
 </div>
