@@ -525,6 +525,10 @@
   }
 
   let y;
+
+  let hereKitty = false;
+  const handleMouseenterWindow = () => (hereKitty = true);
+  const handleMouseleaveWindow = () => (hereKitty = false);
 </script>
 
 <style>
@@ -681,6 +685,21 @@
   .active {
     background-color: red;
     color: white;
+  }
+
+  .kittyBox {
+    position: relative;
+  }
+
+  .kitty {
+    position: absolute;
+    left: 0;
+    transition: left 0.4s;
+    width: 100px;
+  }
+
+  .curious {
+    left: 100px;
   }
 </style>
 
@@ -1151,5 +1170,18 @@
   </div>
 
   <p>You have scrolled {y} pixels</p>
+
+  <div class="kittyBox">
+    <img
+      src="https://svelte.dev/tutorial/kitten.png"
+      alt="kitty"
+      class="kitty"
+      class:curious={hereKitty} />
+  </div>
 </div>
+
 <svelte:window on:keydown={handleKeydownWindow} bind:scrollY={y} />
+
+<svelte:body
+  on:mouseenter={handleMouseenterWindow}
+  on:mouseleave={handleMouseleaveWindow} />
