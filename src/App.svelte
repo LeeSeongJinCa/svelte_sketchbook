@@ -1185,3 +1185,7 @@
 <svelte:body
   on:mouseenter={handleMouseenterWindow}
   on:mouseleave={handleMouseleaveWindow} />
+
+<svelte:head>
+  <link rel="stylesheet" href="https://svelte.dev/tutorial/dark-theme.css" />
+</svelte:head>
