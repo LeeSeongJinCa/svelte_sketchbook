@@ -36,6 +36,7 @@
   import BlueThing from "./BlueThing.svelte";
   import GreenThing from "./GreenThing.svelte";
   import Todo from "./Todo.svelte";
+  import AudioPlayer from "./AudioPlayer.svelte";
 
   let name = "world";
   let source = "./img.png";
@@ -540,7 +541,6 @@
   const toggleTodo = (toggled) => {
     todos3 = todos3.map((todo) => {
       if (todo === toggled) {
-        // return a new object
         return {
           id: todo.id,
           text: todo.text,
@@ -548,10 +548,9 @@
         };
       }
 
-      // return the same object
       return todo;
     });
-  }
+  };
 </script>
 
 <style>
@@ -1207,6 +1206,26 @@
     {#each todos3 as todo (todo.id)}
       <Todo on:click={() => toggleTodo(todo)} {todo} />
     {/each}
+  </div>
+
+  <div class="audio">
+    <AudioPlayer
+      src="https://sveltejs.github.io/assets/music/strauss.mp3"
+      title="The Blue Danube Waltz"
+      composer="Johann Strauss"
+      performer="European Archive" />
+
+    <AudioPlayer
+      src="https://sveltejs.github.io/assets/music/holst.mp3"
+      title="Mars, the Bringer of War"
+      composer="Gustav Holst"
+      performer="USAF Heritage of America Band" />
+
+    <AudioPlayer
+      src="https://sveltejs.github.io/assets/music/satie.mp3"
+      title="Gymnopédie no. 1"
+      composer="Erik Satie"
+      performer="Prodigal Procrastinator" />
   </div>
 </div>
 
