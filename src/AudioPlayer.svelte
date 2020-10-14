@@ -1,8 +1,18 @@
 <script context="module">
-  let current;
+  // let current;
+
+  const elements = new Set();
+
+  export function stopAll() {
+    elements.forEach((e) => {
+      e.pause();
+    });
+  }
 </script>
 
 <script>
+  import { onMount } from "svelte";
+
   export let src;
   export let title;
   export let composer;
@@ -12,10 +22,18 @@
   let paused = true;
 
   const stopOthers = () => {
-    console.log(audio, current);
-    if (current && current !== audio) current.pause();
-    current = audio;
+    // if (current && current !== audio) current.pause();
+    // current = audio;
+    console.log(elements);
+    elements.forEach((e) => {
+      if (e !== audio) e.pause();
+    });
   };
+
+  onMount(() => {
+    elements.add(audio);
+    return () => elements.delete(audio);
+  });
 </script>
 
 <style>

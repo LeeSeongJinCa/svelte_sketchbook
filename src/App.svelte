@@ -36,7 +36,7 @@
   import BlueThing from "./BlueThing.svelte";
   import GreenThing from "./GreenThing.svelte";
   import Todo from "./Todo.svelte";
-  import AudioPlayer from "./AudioPlayer.svelte";
+  import AudioPlayer, { stopAll } from "./AudioPlayer.svelte";
 
   let name = "world";
   let source = "./img.png";
@@ -1209,6 +1209,7 @@
   </div>
 
   <div class="audio">
+    <button on:click={stopAll}>Stop All</button>
     <AudioPlayer
       src="https://sveltejs.github.io/assets/music/strauss.mp3"
       title="The Blue Danube Waltz"
