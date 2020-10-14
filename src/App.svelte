@@ -37,6 +37,7 @@
   import GreenThing from "./GreenThing.svelte";
   import Todo from "./Todo.svelte";
   import AudioPlayer, { stopAll } from "./AudioPlayer.svelte";
+  import Debugging from "./Debugging.svelte";
 
   let name = "world";
   let source = "./img.png";
@@ -1228,6 +1229,9 @@
       composer="Erik Satie"
       performer="Prodigal Procrastinator" />
   </div>
+
+  <!-- Removing the annotation will start debug mode. -->
+  <!-- <Debugging /> -->
 </div>
 
 <svelte:window on:keydown={handleKeydownWindow} bind:scrollY={y} />
