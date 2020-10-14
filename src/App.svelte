@@ -523,6 +523,8 @@
     key = e.key;
     keyCode = e.keyCode;
   }
+
+  let y;
 </script>
 
 <style>
@@ -1147,5 +1149,7 @@
       <p>Please press any key</p>
     {/if}
   </div>
+
+  <p>You have scrolled {y} pixels</p>
 </div>
-<svelte:window on:keydown={handleKeydownWindow} />
+<svelte:window on:keydown={handleKeydownWindow} bind:scrollY={y} />
