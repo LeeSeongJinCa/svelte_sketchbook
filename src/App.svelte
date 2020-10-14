@@ -38,6 +38,7 @@
   import Todo from "./Todo.svelte";
   import AudioPlayer, { stopAll } from "./AudioPlayer.svelte";
   import Debugging from "./Debugging.svelte";
+  import Congratulations from "./Congratulations.svelte";
 
   let name = "world";
   let source = "./img.png";
@@ -1232,6 +1233,8 @@
 
   <!-- Removing the annotation will start debug mode. -->
   <!-- <Debugging /> -->
+
+  <Congratulations />
 </div>
 
 <svelte:window on:keydown={handleKeydownWindow} bind:scrollY={y} />
