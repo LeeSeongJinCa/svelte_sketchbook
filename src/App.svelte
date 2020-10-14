@@ -515,6 +515,14 @@
   ];
 
   let selected2 = options[0];
+
+  let key;
+  let keyCode;
+
+  function handleKeydownWindow(e) {
+    key = e.key;
+    keyCode = e.keyCode;
+  }
 </script>
 
 <style>
@@ -1130,4 +1138,14 @@
 
     <svelte:component this={selected2.component} />
   </div>
+
+  <div style="text-align: center; border: 2px solid blue;">
+    {#if key}
+      <button>{key === ' ' ? 'Space' : key}</button>
+      <p>{keyCode}</p>
+    {:else}
+      <p>Please press any key</p>
+    {/if}
+  </div>
 </div>
+<svelte:window on:keydown={handleKeydownWindow} />
