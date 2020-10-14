@@ -32,6 +32,9 @@
   import Map from "./Map.svelte";
   import MapMarket from "./MapMarket.svelte";
   import Folder from "./Folder.svelte";
+  import RedThing from "./RedThing.svelte";
+  import BlueThing from "./BlueThing.svelte";
+  import GreenThing from "./GreenThing.svelte";
 
   let name = "world";
   let source = "./img.png";
@@ -504,6 +507,14 @@
     },
     { type: "file", name: "TODO.md" },
   ];
+
+  const options = [
+    { color: "red", component: RedThing },
+    { color: "blue", component: BlueThing },
+    { color: "green", component: GreenThing },
+  ];
+
+  let selected2 = options[0];
 </script>
 
 <style>
@@ -1108,5 +1119,15 @@
 
   <div>
     <Folder expanded name="Home" files={root} />
+  </div>
+
+  <div>
+    <select bind:value={selected2}>
+      {#each options as option}
+        <option value={option}>{option.color}</option>
+      {/each}
+    </select>
+
+    <svelte:component this={selected2.component} />
   </div>
 </div>
