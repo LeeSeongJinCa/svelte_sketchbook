@@ -1,6 +1,5 @@
 <script>
   import { onMount } from "svelte";
-  import { loop } from "svelte/internal";
 
   let characters = ["🥳", "🎉", "✨"];
 
@@ -19,15 +18,14 @@
   onMount(() => {
     let frame;
 
-    const loop = () => {
+    function loop() {
       frame = requestAnimationFrame(loop);
-
       confetti = confetti.map((emoji) => {
         emoji.y += 0.7 * emoji.r;
         if (emoji.y > 120) emoji.y = -20;
         return emoji;
       });
-    };
+    }
 
     loop();
 
@@ -36,7 +34,11 @@
 </script>
 
 <style>
-  :global(body) {
+  div {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border: 1px solid red;
     overflow: hidden;
   }
 
@@ -46,7 +48,9 @@
   }
 </style>
 
-{#each characters as c}
-  <span
-    style="left: {c.x}%; top: {c.y}%; transform: scale({c.r})">{c.character}</span>
-{/each}
+<div>
+  {#each confetti as c}
+    <span
+      style="left: {c.x}%; top: {c.y}%; transform: scale({c.r})">{c.character}</span>
+  {/each}
+</div>
