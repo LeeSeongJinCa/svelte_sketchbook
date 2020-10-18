@@ -1,7 +1,7 @@
 <script>
-  import CustomButton from "../CustomButton.svelte";
-  import Inner from "../Inner.svelte";
-  import Outer from "../Outer.svelte";
+  import CustomButton from "../lessons/CustomButton.svelte";
+  import Inner from "../lessons/Inner.svelte";
+  import Outer from "../lessons/Outer.svelte";
 
   let m = { x: 0, y: 0 };
 

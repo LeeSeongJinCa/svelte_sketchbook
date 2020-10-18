@@ -1,5 +1,4 @@
 <script>
-  import App from "./App.svelte";
   import File from "./File.svelte";
 
   export let expanded = false;

@@ -1,7 +1,7 @@
 <script>
   import { afterUpdate, beforeUpdate, onMount, tick } from "svelte";
 
-  import { onInterval } from "../utils";
+  import { onInterval } from "../lessons/utils";
 
   let photos = [];
 

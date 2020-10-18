@@ -1,7 +1,7 @@
 <script>
-  import Box from "../Box.svelte";
-  import ContactCard from "../ContactCard.svelte";
-  import Hoverable from "../Hoverable.svelte";
+  import Box from "../lessons/Box.svelte";
+  import ContactCard from "../lessons/ContactCard.svelte";
+  import Hoverable from "../lessons/Hoverable.svelte";
 </script>
 
 <style>

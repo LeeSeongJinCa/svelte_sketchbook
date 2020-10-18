@@ -1,6 +1,6 @@
 <script>
-  import Map from "../Map.svelte";
-  import MapMarker from "../MapMarket.svelte";
+  import Map from "../lessons/Map.svelte";
+  import MapMarker from "../lessons/MapMarket.svelte";
 </script>
 
 <div class="contextAPI">

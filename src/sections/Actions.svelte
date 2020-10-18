@@ -1,7 +1,7 @@
 <script>
   import { spring } from "svelte/motion";
-  import { pannable } from "../pannable";
-  import { longpress } from "../longpress";
+  import { pannable } from "../lessons/pannable";
+  import { longpress } from "../lessons/longpress";
 
   const coords = spring(
     {

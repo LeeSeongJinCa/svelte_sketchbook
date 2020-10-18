@@ -1,5 +1,5 @@
 <script>
-  import Nested from "../Nested.svelte";
+  import Nested from "../lessons/Nested.svelte";
 
   let name = "LeeSeongJinCa!";
   let src = "https://svelte.dev/tutorial/image.gif";

@@ -1,8 +1,15 @@
 <script>
-  import { count, elapsed, time, customCount, greeting, name } from "../store";
-  import Incrementer from "../Incrementer.svelte";
-  import Decrementer from "../Decrementer.svelte";
-  import Resetter from "../Resetter.svelte";
+  import {
+    count,
+    elapsed,
+    time,
+    customCount,
+    greeting,
+    name,
+  } from "../lessons/store";
+  import Incrementer from "../lessons/Incrementer.svelte";
+  import Decrementer from "../lessons/Decrementer.svelte";
+  import Resetter from "../lessons/Resetter.svelte";
 
   let countValue;
 

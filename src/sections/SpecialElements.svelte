@@ -1,9 +1,9 @@
 <script>
-  import Folder from "../Folder.svelte";
-  import RedThing from "../RedThing.svelte";
-  import BlueThing from "../BlueThing.svelte";
-  import GreenThing from "../GreenThing.svelte";
-  import Todo from "../Todo.svelte";
+  import Folder from "../lessons/Folder.svelte";
+  import RedThing from "../lessons/RedThing.svelte";
+  import BlueThing from "../lessons/BlueThing.svelte";
+  import GreenThing from "../lessons/GreenThing.svelte";
+  import Todo from "../lessons/Todo.svelte";
 
   let root = [
     {

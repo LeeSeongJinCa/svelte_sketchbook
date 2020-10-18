@@ -1,5 +1,5 @@
 <script>
-  import AudioPlayer, { stopAll } from "../AudioPlayer.svelte";
+  import AudioPlayer, { stopAll } from "../lessons/AudioPlayer.svelte";
 </script>
 
 <div class="moduleContext">

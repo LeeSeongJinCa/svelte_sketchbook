@@ -1,6 +1,6 @@
 <script>
-  import Answer from "../Answer.svelte";
-  import Info from "../Info.svelte";
+  import Answer from "../lessons/Answer.svelte";
+  import Info from "../lessons/Info.svelte";
 
   const pkg = {
     name: "lee",

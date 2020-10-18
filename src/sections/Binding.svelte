@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import Keypad from "../Keypad.svelte";
+  import Keypad from "../lessons/Keypad.svelte";
 
   let name = "world";
 

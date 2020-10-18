@@ -1,5 +1,5 @@
 <script>
-  import Thing from "../Thing.svelte";
+  import Thing from "../lessons/Thing.svelte";
 
   let user = { loggined: false };
 
