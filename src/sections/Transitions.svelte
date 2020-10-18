@@ -42,7 +42,6 @@
   };
 
   let status = "";
-  $: console.log(status);
 
   let showItems = true;
   let i = 5;

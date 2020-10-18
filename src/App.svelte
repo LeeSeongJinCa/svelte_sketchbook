@@ -32,6 +32,7 @@
   import AudioPlayer, { stopAll } from "./AudioPlayer.svelte";
   import Debugging from "./Debugging.svelte";
   import Congratulations from "./Congratulations.svelte";
+  import Actions from "./sections/Actions.svelte";
 
   const coords2 = spring(
     { x: 0, y: 0 },
@@ -161,6 +162,7 @@
   <Motion />
   <Transitions />
   <Animate />
+  <Actions />
 
   <!-- 
 
