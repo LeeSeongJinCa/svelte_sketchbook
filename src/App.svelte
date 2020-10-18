@@ -19,6 +19,8 @@
   import Motion from "./sections/Motion.svelte";
   import Transitions from "./sections/Transitions.svelte";
   import Animate from "./sections/Animate.svelte";
+  import Actions from "./sections/Actions.svelte";
+  import Classes from "./sections/Classes.svelte";
 
   import Box from "./Box.svelte";
   import Hoverable from "./Hoverable.svelte";
@@ -32,35 +34,6 @@
   import AudioPlayer, { stopAll } from "./AudioPlayer.svelte";
   import Debugging from "./Debugging.svelte";
   import Congratulations from "./Congratulations.svelte";
-  import Actions from "./sections/Actions.svelte";
-
-  const coords2 = spring(
-    { x: 0, y: 0 },
-    {
-      stiffness: 0.2,
-      damping: 0.4,
-    }
-  );
-
-  function handlePanStart() {
-    coords2.stiffness = coords2.damping = 1;
-  }
-
-  function handlePanMove(event) {
-    coords2.update(($coords) => ({
-      x: $coords.x + event.detail.dx,
-      y: $coords.y + event.detail.dy,
-    }));
-  }
-
-  function handlePanEnd(event) {
-    coords2.stiffness = 0.2;
-    coords2.damping = 0.4;
-    coords2.set({ x: 0, y: 0 });
-  }
-
-  let pressed = false;
-  let pressedDuration = 2000;
 
   const buttons = ["foo", "bar", "baz"];
   let current = "foo";
@@ -145,6 +118,11 @@
 </script>
 
 <style>
+  :global(body) {
+    margin: 0;
+    padding: 0;
+  }
+
   .root {
     padding: 100px 0;
   }
@@ -163,32 +141,9 @@
   <Transitions />
   <Animate />
   <Actions />
+  <Classes />
 
   <!-- 
-
-  <div style="position: relative;">
-    <div
-      class="box"
-      use:pannable
-      on:panstart={handlePanStart}
-      on:panmove={handlePanMove}
-      on:panend={handlePanEnd}
-      style="transform:
-      translate({$coords2.x}px,{$coords2.y}px)
-      rotate({$coords2.x * 0.2}deg)" />
-  </div>
-
-  <label>
-    <input type="range" bind:value={pressedDuration} max={2000} step={100} />
-    {pressedDuration}ms
-  </label>
-  <button
-    use:longpress={pressedDuration}
-    on:longpress={() => (pressed = true)}
-    on:mouseenter={() => (pressed = false)}>press and hold</button>
-  {#if pressed}
-    <p>congratulations, {pressedDuration}ms</p>
-  {/if}
 
   <div>
     {#each buttons as button}
