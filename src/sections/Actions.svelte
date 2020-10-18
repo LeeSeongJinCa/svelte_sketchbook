@@ -1,6 +1,7 @@
 <script>
   import { spring } from "svelte/motion";
   import { pannable } from "../pannable";
+  import { longpress } from "../longpress";
 
   const coords = spring(
     {
@@ -29,6 +30,9 @@
     coords.damping = 0.4;
     coords.set({ x: 0, y: 0 });
   };
+
+  let pressed = false;
+  let duration = 2000;
 </script>
 
 <style>
@@ -59,4 +63,18 @@
     on:panmove={handlePanMove}
     on:panend={handlePanEnd}
     style="transform: translate({$coords.x}px, {$coords.y}px) rotate({$coords.x * 0.2}deg);" />
+
+  <div class="addingParameters">
+    <label>
+      <input type="range" bind:value={duration} max="2000" min="100" />
+      {duration}ms
+    </label>
+    <button
+      use:longpress={duration}
+      on:longpress={() => (pressed = true)}
+      on:mouseenter={() => (pressed = false)}>press and hold</button>
+    {#if pressed}
+      <p>congratulations, you pressed and held for {duration}ms</p>
+    {/if}
+  </div>
 </div>
