@@ -30,7 +30,7 @@
   }
 
   .root {
-    padding: 100px 0;
+    padding: 200px 0;
   }
 
   nav {
